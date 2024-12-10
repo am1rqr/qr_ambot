@@ -5,7 +5,8 @@ def setup_routers() -> Router:
     from .users import (
         start,
         settings,
-        qr_generate
+        qr_generate,
+        change_size
     )
     from .admins import (
         admin_panel,
@@ -16,6 +17,7 @@ def setup_routers() -> Router:
     router.include_routers(
         start.router,
         settings.router,
+        change_size.router,
 
         admin_panel.router,
         mailing.router,
