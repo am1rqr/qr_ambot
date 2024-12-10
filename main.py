@@ -4,9 +4,12 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
+from aiogram_i18n import I18nMiddleware
+from aiogram_i18n.cores import FluentRuntimeCore
 from tortoise import Tortoise
 
 from bot.handlers import setup_routers
+from bot.middlewares.translation import TranslationManager
 from bot.utils.notify_admins import on_startup_notify, on_shutdown_notify
 from config import settings
 
@@ -33,6 +36,14 @@ async def on_shutdown(bot: Bot) -> None:
 
 
 async def main() -> None:
+    i18n_middleware = I18nMiddleware(
+        core=FluentRuntimeCore(
+            path="bot/locales/{locale}"
+        ),
+        manager=TranslationManager()
+    )
+    i18n_middleware.setup(dispatcher=dp)
+
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
 
