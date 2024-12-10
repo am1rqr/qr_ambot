@@ -14,6 +14,6 @@ async def change_qr_size(call: CallbackQuery, i18n: I18nContext, state: FSMConte
     change_type = call.data.split("#")[1]
     await state.update_data(change_type=change_type)
 
-    await call.message.edit_caption(caption=i18n.change_size(),
+    await call.message.edit_caption(caption=i18n.change_size(change_type),
                                     reply_markup=back_to_builder("settings", i18n))
     await state.set_state(ChangeSize.size)
